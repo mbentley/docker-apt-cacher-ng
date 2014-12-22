@@ -4,7 +4,7 @@ RUN (echo "deb http://http.debian.net/debian/ jessie main contrib non-free" > /e
 RUN apt-get update
 
 RUN (DEBIAN_FRONTEND=noninteractive apt-get install -y apt-cacher-ng &&\
-	ln -sf /dev/stdout /var/log/apt-cacher-ng/apt-cacher.out &&\
+	ln -sf /dev/stdout /var/log/apt-cacher-ng/apt-cacher.log &&\
 	ln -sf /dev/stderr /var/log/apt-cacher-ng/apt-cacher.err)
 
 VOLUME ["/var/cache/apt-cacher-ng"]
