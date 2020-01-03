@@ -17,6 +17,8 @@ docker run -d \
   mbentley/apt-cacher-ng
 ```
 
+This image runs `apt-cacher-ng`, `cron`, and `rsyslogd` to ensure that apt-cacher-ng functions properly with scheduled jobs and appropriate logging.
+
 In order to configure a host to make use of apt-cacher-ng on a box, you should create a file on the host `/etc/apt/apt.conf` with the following lines:
 
 ```
