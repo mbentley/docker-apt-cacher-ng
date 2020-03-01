@@ -6,6 +6,7 @@ RUN apt-get update &&\
   mkdir /var/run/apt-cacher-ng &&\
   chown -R apt-cacher-ng:apt-cacher-ng /var/run/apt-cacher-ng &&\
   echo "PassThroughPattern: .*" >> /etc/apt-cacher-ng/acng.conf &&\
+  sed -i "s#size 10M#size 100M#g" /etc/logrotate.d/apt-cacher-ng &&\
   rm -rf /var/lib/apt/lists/*
 
 COPY s6 /etc/s6
