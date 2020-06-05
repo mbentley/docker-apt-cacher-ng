@@ -9,6 +9,9 @@ RUN apt-get update &&\
   sed -i "s#size 10M#size 100M#g" /etc/logrotate.d/apt-cacher-ng &&\
   rm -rf /var/lib/apt/lists/*
 
+# add image to use for a lazy health check via image
+COPY cache.png /usr/share/doc/apt-cacher-ng/cache.png
+
 COPY s6 /etc/s6
 COPY entrypoint.sh /entrypoint.sh
 
