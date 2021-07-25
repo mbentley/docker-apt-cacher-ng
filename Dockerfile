@@ -1,4 +1,4 @@
-FROM debian:buster
+FROM debian:bullseye
 MAINTAINER Matt Bentley <mbentley@mbentley.net>
 
 RUN apt-get update &&\

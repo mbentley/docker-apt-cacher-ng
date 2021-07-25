@@ -1,7 +1,7 @@
 # mbentley/apt-cacher-ng
 
 docker image for apt-cacher-ng
-based off of debian:buster
+based off of debian:bullseye
 
 To pull this image:
 `docker pull mbentley/apt-cacher-ng`
