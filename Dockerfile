@@ -5,6 +5,7 @@ RUN apt-get update &&\
   DEBIAN_FRONTEND=noninteractive apt-get install -y apt-cacher-ng cron logrotate s6 rsyslog &&\
   chown -R apt-cacher-ng:apt-cacher-ng /var/run/apt-cacher-ng &&\
   echo "PassThroughPattern: .*" >> /etc/apt-cacher-ng/acng.conf &&\
+  sed -i "s/# ReuseConnections: 1/ReuseConnections: 1/g" /etc/apt-cacher-ng/acng.conf &&\
   sed -i "s#size 10M#size 100M#g" /etc/logrotate.d/apt-cacher-ng &&\
   rm -rf /var/lib/apt/lists/*
 
