@@ -1,6 +1,6 @@
 # rebased/repackaged base image that only updates existing packages
 FROM mbentley/debian:bullseye
-MAINTAINER Matt Bentley <mbentley@mbentley.net>
+LABEL maintainer="Matt Bentley <mbentley@mbentley.net>"
 
 RUN apt-get update &&\
   DEBIAN_FRONTEND=noninteractive apt-get install -y apt-cacher-ng cron logrotate s6 rsyslog &&\
