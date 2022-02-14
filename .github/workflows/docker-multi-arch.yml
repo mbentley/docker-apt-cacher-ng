@@ -20,9 +20,9 @@ jobs:
             run: |
                 image_name="${{secrets.DOCKER_USERNAME}}/apt-cacher-ng"
                 date=$(date '+%Y-%m-%d')
-                apt-cacher-ng-version="apt-cacher-ng-3.6.4"
-                full="${apt-cacher-ng-version}-${date}"
-                tags="${image_name}:${apt-cacher-ng-version},${image_name}:${full},${image_name}:latest"
+                apt_cacher_ng_version="apt-cacher-ng-3.6.4"
+                full="${apt_cacher_ng_version}-${date}"
+                tags="${image_name}:${apt_cacher_ng_version},${image_name}:${full},${image_name}:latest"
                 echo "RELEASE_TAGS=${tags}" >> $GITHUB_ENV
         -
             name: Set up QEMU
