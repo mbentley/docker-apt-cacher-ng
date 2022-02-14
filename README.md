@@ -46,3 +46,10 @@ You can also update the /etc/apt-cacher-ng/acng.conf and add one or more `PassTh
 PassThroughPattern: get\.docker\.com
 PassThroughPattern: download\.virtualbox\.org
 ```
+
+## Available Archs on Docker Hub
+
+- linux/amd64
+- linux/arm/v7
+- linux/arm64/v8
+
