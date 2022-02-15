@@ -18,6 +18,10 @@ There are also architecture specific tags if you wish to use an explicit archite
 * `latest-arm64`
 * `latest-armv7l`
 
+### Date Specific Tags
+
+The `latest` tags also have unique manifests that are generated daily.  These are in the format `latest-YYYYMMDD` (e.g. - `latest-20220215`) and can be viewed on [Docker Hub](https://hub.docker.com/repository/docker/mbentley/apt-cacher-ng/tags?page=1&ordering=last_updated&name=latest-20).  Each one of these tags will be generated daily and is essentially a point in time snapshot of the `latest` tag's manifest that you can pin to if you wish.  Please note that these tags will remain available on Docker Hub for __6 months__ and will not receive security fixes.  You will need to update to newer tags as they are published in order to get updated images.  If you do not care about specific image digests to pin to, I would suggest just using the `latest` tag.
+
 ## Example usage
 
 ```
