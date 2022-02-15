@@ -66,7 +66,7 @@ do
       echo "tag age $(date -d "@${TAG_LAST_PUSHED}" +%Y-%m-%d), threshold $(date -d "@${PURGE_DATE}" +%Y-%m-%d), ${TAG_NAME}, removing"
 
       # delete the tag
-      curl -H "Authorization: JWT ${TOKEN}" -X DELETE "https://hub.docker.com/v2/repositories/${IMAGE_REPO}/tags/${TAG_NAME}/"
+      curl -s -H "Authorization: JWT ${TOKEN}" -X DELETE "https://hub.docker.com/v2/repositories/${IMAGE_REPO}/tags/${TAG_NAME}/"
     else
       # do not purge tag
       echo "tag age $(date -d "@${TAG_LAST_PUSHED}" +%Y-%m-%d), threshold $(date -d "@${PURGE_DATE}" +%Y-%m-%d), ${TAG_NAME}, NOT removing"
