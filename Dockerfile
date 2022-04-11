@@ -8,6 +8,7 @@ RUN apt-get update &&\
   echo "PassThroughPattern: .*" >> /etc/apt-cacher-ng/acng.conf &&\
   sed -i "s/# ReuseConnections: 1/ReuseConnections: 1/g" /etc/apt-cacher-ng/acng.conf &&\
   sed -i "s#size 10M#size 100M#g" /etc/logrotate.d/apt-cacher-ng &&\
+  sed -i '/imklog/s/^/#/' /etc/rsyslog.conf &&\
   rm -rf /var/lib/apt/lists/*
 
 # add image to use for a lazy health check via image
