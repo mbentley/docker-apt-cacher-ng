@@ -10,13 +10,12 @@ To pull this image:
 
 ### Multi-arch Tags
 
-The `latest` tag has multi-arch support for `amd64`, `armv7l`, and `arm64` and will automatically pull the correct tag based on your system's architecture.
+The `latest` tag has multi-arch support for `amd64` and `arm64` and will automatically pull the correct tag based on your system's architecture.
 
 There are also architecture specific tags if you wish to use an explicit architecture tag:
 
 * `latest-amd64`
 * `latest-arm64`
-* `latest-armv7l`
 
 ### Date Specific Tags
 
