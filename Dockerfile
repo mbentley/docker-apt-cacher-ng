@@ -1,5 +1,5 @@
 # rebased/repackaged base image that only updates existing packages
-FROM mbentley/debian:bookworm
+FROM mbentley/debian:bullseye
 LABEL maintainer="Matt Bentley <mbentley@mbentley.net>"
 
 RUN apt-get update &&\
