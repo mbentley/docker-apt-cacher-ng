@@ -1,5 +1,6 @@
 # rebased/repackaged base image that only updates existing packages
-FROM mbentley/debian:trixie
+ARG BASE=mbentley/debian:trixie
+FROM ${BASE}
 LABEL maintainer="Matt Bentley <mbentley@mbentley.net>"
 
 RUN apt-get update &&\
