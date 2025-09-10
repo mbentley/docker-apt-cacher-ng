@@ -1,7 +1,7 @@
 # mbentley/apt-cacher-ng
 
 docker image for apt-cacher-ng
-based off of debian:trixie / debian:bookworm
+based off of debian:trixie / debian:bookworm / debian:bullseye
 
 To pull this image:
 `docker pull mbentley/apt-cacher-ng`
@@ -15,6 +15,7 @@ The following tags have multi-arch support for `amd64` and `arm64` and will auto
 * `latest`
 * `trixie`
 * `bookworm`
+* `bullseye`
 
 There are also architecture specific tags if you wish to use an explicit architecture tag:
 
@@ -22,10 +23,12 @@ There are also architecture specific tags if you wish to use an explicit archite
 * `latest-arm64`, `trixie-amd64`
 * `bookworm-amd64`
 * `bookworm-arm64`
+* `bullseye-amd64`
+* `bullseye-arm64`
 
 ### Date Specific Tags
 
-The `latest`, `trixie`, and `bookworm` tags also have unique manifests that are generated daily.  These are in the format `<tag>-YYYYMMDD` (e.g. - `latest-20220215`) and can be viewed on [Docker Hub](https://hub.docker.com/repository/docker/mbentley/apt-cacher-ng/tags?page=1&ordering=last_updated&name=latest-20).  Each one of these tags will be generated daily and is essentially a point in time snapshot of the `latest` tag's manifest that you can pin to if you wish.  Please note that these tags will remain available on Docker Hub for __6 months__ and will not receive security fixes.  You will need to update to newer tags as they are published in order to get updated images.  If you do not care about specific image digests to pin to, I would suggest just using the `latest`, `trixie`, or `bookworm` tags.
+The `latest`, `trixie`, `bookworm`, and `bullseye` tags also have unique manifests that are generated daily.  These are in the format `<tag>-YYYYMMDD` (e.g. - `latest-20220215`) and can be viewed on [Docker Hub](https://hub.docker.com/repository/docker/mbentley/apt-cacher-ng/tags?page=1&ordering=last_updated&name=latest-20).  Each one of these tags will be generated daily and is essentially a point in time snapshot of the `latest` tag's manifest that you can pin to if you wish.  Please note that these tags will remain available on Docker Hub for __6 months__ and will not receive security fixes.  You will need to update to newer tags as they are published in order to get updated images.  If you do not care about specific image digests to pin to, I would suggest just using the `latest`, `trixie`, `bookworm`, or `bullseye` tags.
 
 ## Example usage
 
