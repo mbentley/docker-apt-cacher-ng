@@ -4,7 +4,7 @@ FROM ${BASE}
 LABEL maintainer="Matt Bentley <mbentley@mbentley.net>"
 
 RUN apt-get update &&\
-  DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y apt-cacher-ng ca-certificates cron logrotate s6 rsyslog &&\
+  DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y apt-cacher-ng ca-certificates cron gosu logrotate s6 rsyslog &&\
   chown -R apt-cacher-ng:apt-cacher-ng /var/run/apt-cacher-ng &&\
   echo 'PassThroughPattern: ^(.*):443$' >> /etc/apt-cacher-ng/zzz_acng.conf &&\
   echo 'ReuseConnections: 1' >> /etc/apt-cacher-ng/zzz_acng.conf &&\
@@ -14,6 +14,9 @@ RUN apt-get update &&\
 
 # add image to use for a lazy health check via image
 COPY cache.png /usr/share/doc/apt-cacher-ng/cache.png
+
+# run as root by default
+ENV PUID=0 PGID=0
 
 COPY s6 /etc/s6
 COPY entrypoint.sh /entrypoint.sh
