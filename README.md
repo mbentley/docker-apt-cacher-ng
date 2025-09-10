@@ -37,9 +37,13 @@ docker run -d \
   --name apt-cacher-ng \
   -p 3142:3142 \
   -e TZ="US/Eastern" \
+  -e PUID=0 \
+  -e PGID=0 \
   -v /data/apt-cacher-ng:/var/cache/apt-cacher-ng \
   mbentley/apt-cacher-ng
 ```
+
+To change the UID/GID that apt-cacher-ng itself runs as, set `PUID` and `PGID` to whatever numerical values you wish.
 
 This image runs `apt-cacher-ng`, `cron`, and `rsyslogd` to ensure that apt-cacher-ng functions properly with scheduled jobs and appropriate logging.
 
@@ -70,3 +74,5 @@ You can also update the /etc/apt-cacher-ng/acng.conf and add one or more `PassTh
 PassThroughPattern: get\.docker\.com
 PassThroughPattern: download\.virtualbox\.org
 ```
+
+By default, I've enabled a passthrough pattern for anything using port 443.
