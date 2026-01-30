@@ -4,7 +4,7 @@ FROM ${BASE}
 LABEL maintainer="Matt Bentley <mbentley@mbentley.net>"
 
 RUN apt-get update &&\
-  DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y apt-cacher-ng ca-certificates cron gosu logrotate s6 rsyslog &&\
+  DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y apt-cacher-ng busybox-static ca-certificates cron gosu logrotate s6 rsyslog &&\
   chown -R apt-cacher-ng:apt-cacher-ng /var/run/apt-cacher-ng &&\
   echo 'PassThroughPattern: ^(.*):443$' >> /etc/apt-cacher-ng/zzz_acng.conf &&\
   echo 'ReuseConnections: 1' >> /etc/apt-cacher-ng/zzz_acng.conf &&\
@@ -23,6 +23,7 @@ COPY entrypoint.sh /entrypoint.sh
 
 VOLUME ["/var/cache/apt-cacher-ng"]
 EXPOSE 3142
+HEALTHCHECK --interval=30s --timeout=5s --start-period=5s --retries=3 CMD ["busybox", "wget", "-q", "-O", "/dev/null", "http://localhost:3142/acng-doc/"]
 
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["s6-svscan","/etc/s6"]
