@@ -23,7 +23,7 @@ COPY entrypoint.sh /entrypoint.sh
 
 VOLUME ["/var/cache/apt-cacher-ng"]
 EXPOSE 3142
-HEALTHCHECK --interval=30s --timeout=5s --start-period=5s --retries=3 CMD ["busybox", "wget", "-q", "-O", "/dev/null", "http://localhost:3142/acng-doc/"]
+HEALTHCHECK --interval=30s --timeout=5s --start-period=5s --retries=3 CMD ["busybox", "wget", "-q", "-O", "/dev/null", "http://localhost:3142/acng-report.html"]
 
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["s6-svscan","/etc/s6"]
