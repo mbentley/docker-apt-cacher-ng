@@ -76,3 +76,39 @@ PassThroughPattern: download\.virtualbox\.org
 ```
 
 By default, I've enabled a passthrough pattern for anything using port 443.
+
+## Drop-in configuration
+
+Instead of bind mounting individual config files, you can mount a directory of `*.conf` files (plus any files they reference, like `backends_*` lists) at `/etc/apt-cacher-ng/config.d`:
+
+```
+docker run -d \
+  --name apt-cacher-ng \
+  -p 3142:3142 \
+  -v /data/apt-cacher-ng:/var/cache/apt-cacher-ng \
+  -v /data/apt-cacher-ng-config.d:/etc/apt-cacher-ng/config.d:ro \
+  mbentley/apt-cacher-ng
+```
+
+On startup, the files in the top level of `config.d` are symlinked into `/etc/apt-cacher-ng`:
+
+* `*.conf` files are linked as `zzzz-dropin-<name>.conf` so they are loaded after the default config files and override them
+* all other files (e.g. `backends_*`) are linked with their original name so relative `file:` references in your `*.conf` files resolve, since apt-cacher-ng looks them up in `/etc/apt-cacher-ng`
+
+For example, with `config.d/backends_docker` containing `https://download.docker.com/linux/debian`, a `config.d/docker.conf` can reference it like any other backends file:
+
+```
+Remap-docker: /docker ; file:backends_docker
+```
+
+A drop-in is skipped with a warning if a file with the same name already exists in `/etc/apt-cacher-ng` (for example, `backends_debian` and `backends_ubuntu` ship with the image), so drop-ins can't replace the default files. To use a conflicting file anyway, give it a different name or reference it by absolute path (`file:/etc/apt-cacher-ng/config.d/backends_debian`). Add or remove files and restart the container to apply the changes.
+
+### Drop-in permissions
+
+Unlike the rest of `/etc/apt-cacher-ng`, the entrypoint does not change the ownership of anything in `config.d` because it is typically a read-only bind mount and changing ownership would modify the files on the host. Since apt-cacher-ng runs as `PUID`/`PGID` (`0`/`0` by default), the drop-in files must be readable by that user or group. If you set a non-root `PUID`/`PGID`, either make the files world-readable or have them owned by (or group-readable by) that UID/GID:
+
+```
+chmod 644 /data/apt-cacher-ng-config.d/*
+```
+
+If a drop-in isn't readable by that user, apt-cacher-ng won't be able to load its settings.

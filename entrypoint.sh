@@ -187,9 +187,53 @@ else
   echo "INFO: User and group management completed successfully"
 fi
 
+# link drop-in files from config.d into the config dir (apt-cacher-ng only reads *.conf from the top level of one -c dir
+#   and resolves relative file: references, like backends_* files, against that same dir)
+CONFIG_DIR="/etc/apt-cacher-ng"
+DROPIN_DIR="${CONFIG_DIR}/config.d"
+# prefix must sort after zzz_acng.conf so drop-ins are loaded last and override the defaults
+DROPIN_PREFIX="zzzz-dropin-"
+
+# remove links from a previous start so removed drop-ins do not linger
+find "${CONFIG_DIR}" -maxdepth 1 -type l -lname "${DROPIN_DIR}/*" -delete
+
+if [ -d "${DROPIN_DIR}" ]
+then
+  for DROPIN_FILE in "${DROPIN_DIR}"/*
+  do
+    # skip directories and the unexpanded glob when there are no matching files
+    if [ ! -f "${DROPIN_FILE}" ]
+    then
+      continue
+    fi
+
+    # *.conf files get the prefix for load order; everything else keeps its name so file: references resolve
+    case "${DROPIN_FILE}" in
+      *.conf)
+        LINK_NAME="${CONFIG_DIR}/${DROPIN_PREFIX}$(basename "${DROPIN_FILE}")"
+        ;;
+      *)
+        LINK_NAME="${CONFIG_DIR}/$(basename "${DROPIN_FILE}")"
+        ;;
+    esac
+
+    # never replace a file that ships with the image
+    if [ -e "${LINK_NAME}" ] || [ -L "${LINK_NAME}" ]
+    then
+      echo "WARN: Not linking drop-in ${DROPIN_FILE}; ${LINK_NAME} already exists"
+      continue
+    fi
+
+    echo "INFO: Linking drop-in ${DROPIN_FILE} to ${LINK_NAME}"
+    ln -s "${DROPIN_FILE}" "${LINK_NAME}"
+  done
+fi
+
 # setting permissions on /var/cache/apt-cacher-ng, /var/log/apt-cacher-ng, and /var/run/apt-cacher-ng
-echo -n "INFO: Setting permissions on /etc/apt-cacher-ng /var/cache/apt-cacher-ng, /var/log/apt-cacher-ng, and /var/run/apt-cacher-ng..."
-chown -R apt-cacher-ng:apt-cacher-ng /etc/apt-cacher-ng /var/cache/apt-cacher-ng /var/log/apt-cacher-ng /var/run/apt-cacher-ng || true
+echo -n "INFO: Setting permissions on /etc/apt-cacher-ng, /var/cache/apt-cacher-ng, /var/log/apt-cacher-ng, and /var/run/apt-cacher-ng..."
+# skip the config.d drop-in dir; it is usually a read-only bind mount and the host files should keep their ownership
+find "${CONFIG_DIR}" -path "${DROPIN_DIR}" -prune -o -exec chown -h apt-cacher-ng:apt-cacher-ng {} + || true
+chown -R apt-cacher-ng:apt-cacher-ng /var/cache/apt-cacher-ng /var/log/apt-cacher-ng /var/run/apt-cacher-ng || true
 echo -e "done"
 
 # run CMD
